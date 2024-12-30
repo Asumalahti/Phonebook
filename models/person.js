@@ -12,7 +12,7 @@ const personNumber = process.argv[4]
 const url = process.env.MONGODB_URI;
 console.log('connecting to', url)
 
-
+console.log("Starting the script...");
 mongoose.set('strictQuery', false)
 mongoose.connect(url)
     .then(result => {
@@ -23,8 +23,17 @@ mongoose.connect(url)
     })
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: 3,
+    required: true,
+    unique: true,
+  },
+  number: {
+    type: String,
+    minLength: 8,
+    required: true,
+  },
 })
 
 personSchema.set('toJSON', {
