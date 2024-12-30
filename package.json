@@ -5,14 +5,18 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build:ui": "rm -rf dist && cd /C:/Users/aleks/Desktop/Fullstack Open/part2/phonebook && npm run build && cp -r dist /C:/Users/aleks/Desktop/Phonebook",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "author": "Aleksi Asumalahti",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "mongoose": "^8.8.3",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
