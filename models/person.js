@@ -33,6 +33,12 @@ const personSchema = new mongoose.Schema({
     type: String,
     minLength: 8,
     required: true,
+    validate: {
+      validator: function (v) {
+        return /^[0-9]{2,3}-[0-9]{6,10}$/.test(v);
+      },
+      message: props => `${props.value} not a valid number`
+    }
   },
 })
 

@@ -77,10 +77,6 @@ app.get('/api/info', (request, response, next) => {
 app.post('/api/persons', (request, response, next) => {
   const { name, number } = request.body;
 
-  if (!name || !number) {
-    return response.status(400).json({ error: 'name or number missing' });
-  }
-
   Person.findOne({ name })
     .then(existingPerson => {
       if (existingPerson) {
