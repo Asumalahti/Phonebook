@@ -95,6 +95,29 @@ app.post('/api/persons', (request, response, next) => {
     .catch(error => next(error));
 });
 
+app.put('/api/persons/:id', (request, response, next) => {
+  const id = request.params.id;
+  const { name, number } = request.body;
+
+  if (!number) {
+    return response.status(400).json({ error: 'Number is required' });
+  }
+
+  const update = { number };
+  const options = { new: true, runValidators: true, context: 'query' };
+
+  Person.findByIdAndUpdate(id, update, options)
+    .then(updatedPerson => {
+      if (updatedPerson) {
+        response.json(updatedPerson);
+      } else {
+        response.status(404).json({ error: 'Person not found' });
+      }
+    })
+    .catch(next);
+});
+
+
 app.use((request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
 });
