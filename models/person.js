@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
+const mongoose = require('mongoose')
+require('dotenv').config()
 //if (process.argv.length<3) {
 //  console.log('give password as argument')
 //  process.exit(1)
@@ -9,18 +9,18 @@ const password = process.env.MONGODB_PASSWORD
 const personName = process.argv[3]
 const personNumber = process.argv[4]
 
-const url = process.env.MONGODB_URI;
+const url = process.env.MONGODB_URI
 console.log('connecting to', url)
 
-console.log("Starting the script...");
+console.log('Starting the script...')
 mongoose.set('strictQuery', false)
 mongoose.connect(url)
-    .then(result => {
-        console.log('connected to MongoDB')
-     })
-    .catch(error => {
-        console.log('error connecting to MongoDB:', error.message)
-    })
+  .then(result => {
+    console.log('connected to MongoDB')
+  })
+  .catch(error => {
+    console.log('error connecting to MongoDB:', error.message)
+  })
 
 const personSchema = new mongoose.Schema({
   name: {
@@ -35,7 +35,7 @@ const personSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function (v) {
-        return /^[0-9]{2,3}-[0-9]{6,10}$/.test(v);
+        return /^[0-9]{2,3}-[0-9]{6,10}$/.test(v)
       },
       message: props => `${props.value} not a valid number`
     }

@@ -1,7 +1,8 @@
-POST http://localhost:3001/api/persons/
-content-type: application/json
+//POST https://phonebook-1-bzof.onrender.com/api/persons
+//content-type: application/json
 
-{
-    "name": "ville",
-    "number": "1234"
-}
+//{//    "name": "teav",
+    //"number": "12345"
+//}
+
+GET 'https://mongodb+srv://aleksiasumalahti:PRRgNYExCK1HDikZ@fullstack.1qtys.mongodb.net/people?retryWrites=true&w=majority'
