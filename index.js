@@ -38,12 +38,18 @@ app.get('/api/persons/:id', (request, response, next) => {
         response.status(404).end();
       }
     })
-    .catch(error => next(error));
+    .catch(error => next(error))
+    
 });
 
 
 app.delete('/api/persons/:id', (request, response, next) => {
-  Person.findByIdAndRemove(request.params.id)
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return response.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  Person.findByIdAndRemove(id)
     .then(result => {
       if (result) {
         response.status(204).end();
@@ -51,9 +57,11 @@ app.delete('/api/persons/:id', (request, response, next) => {
         response.status(404).json({ error: 'Person not found' });
       }
     })
-    .catch(error => next(error));
-});
-
+    .catch(error => {
+      console.error('Error deleting person:', error.message);
+      next(error);
+    });
+  });
 app.get('/api/info', (request, response, next) => {
   Person.countDocuments({})
     .then(count => {
@@ -89,13 +97,21 @@ app.use((request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
 });
 
-app.use((error, request, response, next) => {
+const errorHandler = (error, request, response, next) => {
   console.error(error.message);
+
   if (error.name === 'CastError' && error.kind === 'ObjectId') {
-    return response.status(400).send({ error: 'malformatted ID' });
+    return response.status(400).json({ error: 'malformatted ID' });
   }
-  next(error);
-});
+
+  if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message });
+  }
+
+  return response.status(500).json({ error: 'Internal Server Error' });
+};
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
