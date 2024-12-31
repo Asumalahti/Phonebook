@@ -51,7 +51,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
     return response.status(400).json({ error: 'Invalid ID format' });
   }
 
-  Person.findByIdAndRemove(id)
+  Person.findByIdAndDelete(id)
     .then(result => {
       if (result) {
         response.status(204).end();
