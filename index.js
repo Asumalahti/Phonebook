@@ -45,6 +45,8 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
 
+  const id = request.params.id;
+  console.log('ID to delete:', id);
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return response.status(400).json({ error: 'Invalid ID format' });
   }
